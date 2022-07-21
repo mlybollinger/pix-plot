@@ -27,8 +27,7 @@ def timestamp():
 if '--copy_web_only' not in sys.argv:
   
   from tensorflow.keras.preprocessing.image import save_img, img_to_array, array_to_img
-  from tensorflow.keras.applications.inception_v3 import pre
-  input
+  from tensorflow.keras.applications.inception_v3 import preprocess_input
   from tensorflow.keras.applications import InceptionV3, imagenet_utils
   from sklearn.metrics import pairwise_distances_argmin_min
   from tensorflow.keras.preprocessing.image import load_img
