@@ -593,7 +593,7 @@ def get_inception_vectors(**kwargs):
 def get_clip_vectors(**kwargs):
   '''Create and return CLIP vector embedding of Image() instances'''
   print(timestamp(), 'Creating CLIP vectors for {} images'.format(len(kwargs['image_paths'])))
-  vector_dir = os.path.join(kwargs['out_dir'], 'image-vectors', 'inception')
+  vector_dir = os.path.join(kwargs['out_dir'], 'image-vectors', 'CLIP')
   if not os.path.exists(vector_dir): os.makedirs(vector_dir)
   device = "cuda" if torch.cuda.is_available() else "cpu"
   model, preprocess = clip.load("ViT-B/32", device=device)
