@@ -25,7 +25,7 @@ def timestamp():
 ##
 
 if '--copy_web_only' not in sys.argv:
-  !pip install git+https://github.com/openai/CLIP.git
+  
   from tensorflow.keras.preprocessing.image import save_img, img_to_array, array_to_img
   from tensorflow.keras.applications.inception_v3 import pre
   input
@@ -912,7 +912,8 @@ def get_date_layout(cols=3, bin_units='years', **kwargs):
   n_coords_x = (cols+1)*len(d)
   n_coords_y = 1 + max([len(d[i]) for i in d]) // cols
   if n_coords_y > n_coords_x: return get_date_layout(cols=int(cols*2), **kwargs)
-  # create a mesh of grid positions in clip space -1:1 given the time distribution
+  # create a mesh of grid positions in 
+  space -1:1 given the time distribution
   grid_x = (np.arange(0,n_coords_x)/(n_coords_x-1))*2
   grid_y = (np.arange(0,n_coords_y)/(n_coords_x-1))*2
   # divide each grid axis by half its max length to center at the origin 0,0
