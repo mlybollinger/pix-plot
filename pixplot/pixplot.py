@@ -608,7 +608,7 @@ def get_clip_vectors(**kwargs):
         im = preprocess_input( img_to_array( i.original.resize((299,299)) ) )
         image_input = torch.tensor(im).to(device)
         with torch.no_grad():
-          features = model.encode_image(image_input)
+          features = torch.squeeze(model.encode_image(image_input))
         vec = features.cpu().detach().numpy()
         np.save(vector_path, vec)
       vecs.append(vec)
