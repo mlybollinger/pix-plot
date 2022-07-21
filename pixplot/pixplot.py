@@ -27,7 +27,8 @@ def timestamp():
 if '--copy_web_only' not in sys.argv:
   !pip install git+https://github.com/openai/CLIP.git
   from tensorflow.keras.preprocessing.image import save_img, img_to_array, array_to_img
-  from tensorflow.keras.applications.inception_v3 import preprocess_input
+  from tensorflow.keras.applications.inception_v3 import pre
+  input
   from tensorflow.keras.applications import InceptionV3, imagenet_utils
   from sklearn.metrics import pairwise_distances_argmin_min
   from tensorflow.keras.preprocessing.image import load_img
@@ -157,7 +158,7 @@ def process_images(**kwargs):
   kwargs['out_dir'] = join(kwargs['out_dir'], 'data')
   kwargs['image_paths'], kwargs['metadata'] = filter_images(**kwargs)
   kwargs['atlas_dir'] = get_atlas_data(**kwargs)
-  kwargs['vecs'] = get_inception_vectors(**kwargs)
+  kwargs['vecs'] = get_clip_vectors(**kwargs)
   get_manifest(**kwargs)
   write_images(**kwargs)
   print(timestamp(), 'Done!')
