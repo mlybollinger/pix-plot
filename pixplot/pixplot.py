@@ -605,7 +605,7 @@ def get_clip_vectors(**kwargs):
       if os.path.exists(vector_path) and kwargs['use_cache']:
         vec = np.load(vector_path)
       else:
-        im = preprocess_input( img_to_array( i.original.resize((299,299)) ) ).transpose((-1, 0, 1))
+        im = preprocess( img_to_array( i.original.resize((299,299)) ) )
         image_input = torch.tensor(im).to(device)
         with torch.no_grad():
           features = torch.squeeze(model.encode_image(torch.unsqueeze(image_input, 0)))
