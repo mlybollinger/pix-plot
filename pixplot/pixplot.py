@@ -25,7 +25,7 @@ def timestamp():
 ##
 
 if '--copy_web_only' not in sys.argv:
-
+  !pip install git+https://github.com/openai/CLIP.git
   from tensorflow.keras.preprocessing.image import save_img, img_to_array, array_to_img
   from tensorflow.keras.applications.inception_v3 import preprocess_input
   from tensorflow.keras.applications import InceptionV3, imagenet_utils
@@ -42,6 +42,8 @@ if '--copy_web_only' not in sys.argv:
   from iiif_downloader import Manifest
   from rasterfairy import coonswarp
   from tensorflow import compat
+  import torch
+  import clip
   from scipy.stats import kde
   from PIL import ImageFile
   import multiprocessing
@@ -588,6 +590,30 @@ def get_inception_vectors(**kwargs):
       progress_bar.update(1)
   return np.array(vecs)
 
+def get_clip_vectors(**kwargs):
+  '''Create and return CLIP vector embedding of Image() instances'''
+  print(timestamp(), 'Creating Inception vectors for {} images'.format(len(kwargs['image_paths'])))
+  vector_dir = os.path.join(kwargs['out_dir'], 'image-vectors', 'inception')
+  if not os.path.exists(vector_dir): os.makedirs(vector_dir)
+  device = "cuda" if torch.cuda.is_available() else "cpu"
+  model, preprocess = clip.load("ViT-B/32", device=device)
+  print(timestamp(), 'Creating image array')
+  vecs = []
+  with tqdm(total=len(kwargs['image_paths'])) as progress_bar:
+    for idx, i in enumerate(stream_images(**kwargs)):
+      vector_path = os.path.join(vector_dir, clean_filename(i.path) + '.npy')
+      if os.path.exists(vector_path) and kwargs['use_cache']:
+        vec = np.load(vector_path)
+      else:
+        im = preprocess_input( img_to_array( i.original.resize((299,299)) ) )
+        image_input = torch.tensor(im).to(device)
+        with torch.no_grad():
+          features = model.encode_image(image_input)
+        vec = features.cpu().detach().numpy()
+        np.save(vector_path, vec)
+      vecs.append(vec)
+      progress_bar.update(1)
+  return np.array(vecs)
 
 def get_umap_layout(**kwargs):
   '''Get the x,y positions of images passed through a umap projection'''
