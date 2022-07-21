@@ -913,7 +913,7 @@ def get_date_layout(cols=3, bin_units='years', **kwargs):
   n_coords_y = 1 + max([len(d[i]) for i in d]) // cols
   if n_coords_y > n_coords_x: return get_date_layout(cols=int(cols*2), **kwargs)
   # create a mesh of grid positions in 
-  space -1:1 given the time distribution
+  # space -1:1 given the time distribution
   grid_x = (np.arange(0,n_coords_x)/(n_coords_x-1))*2
   grid_y = (np.arange(0,n_coords_y)/(n_coords_x-1))*2
   # divide each grid axis by half its max length to center at the origin 0,0
