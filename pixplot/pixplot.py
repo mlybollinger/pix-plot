@@ -140,6 +140,7 @@ config = {
   'seed': 24,
   'n_clusters': 12,
   'geojson': None,
+  'imgmodel': 'CLIP',
 }
 
 
@@ -157,6 +158,14 @@ def process_images(**kwargs):
   kwargs['out_dir'] = join(kwargs['out_dir'], 'data')
   kwargs['image_paths'], kwargs['metadata'] = filter_images(**kwargs)
   kwargs['atlas_dir'] = get_atlas_data(**kwargs)
+  
+  if kwargs['imgmodel'] == 'CLIP':
+    kwargs['vecs'] = get_clip_vectors(**kwargs)
+  elif kwargs['imgmodel'] == 'Inception':
+    kwargs['vecs'] = get_inception_vectors(**kwargs)
+  else:
+    raise Exception('Image model must be CLIP or Inception')
+    
   kwargs['vecs'] = get_clip_vectors(**kwargs)
   get_manifest(**kwargs)
   write_images(**kwargs)
@@ -1393,6 +1402,7 @@ def parse():
   parser.add_argument('--seed', type=int, default=config['seed'], help='seed for random processes')
   parser.add_argument('--n_clusters', type=int, default=config['n_clusters'], help='number of clusters to use when clustering with kmeans')
   parser.add_argument('--geojson', type=str, default=config['geojson'], help='path to a GeoJSON file with shapes to be rendered on a map')
+  parser.add_argument('--imgmodel', type=str, default=config['imgmodel'], help='enter "CLIP" or "Inception" to choose which image model to use')
   config.update(vars(parser.parse_args()))
   process_images(**config)
 
