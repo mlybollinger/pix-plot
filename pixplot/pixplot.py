@@ -590,6 +590,9 @@ def get_inception_vectors(**kwargs):
       progress_bar.update(1)
   return np.array(vecs)
 
+
+## add functionality for using CLIP vectors instead of Inception
+
 def get_clip_vectors(**kwargs):
   '''Create and return CLIP vector embedding of Image() instances'''
   print(timestamp(), 'Creating CLIP vectors for {} images'.format(len(kwargs['image_paths'])))
