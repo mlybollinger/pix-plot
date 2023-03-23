@@ -608,7 +608,7 @@ def get_clip_vectors(**kwargs):
   vector_dir = os.path.join(kwargs['out_dir'], 'image-vectors', 'CLIP')
   if not os.path.exists(vector_dir): os.makedirs(vector_dir)
   device = "cuda" if torch.cuda.is_available() else "cpu"
-  model, preprocess = clip.load("ViT-B/32", device=device)
+  model, preprocess = clip.load("ViT-B/32", device=device, jit=False)
   print(timestamp(), 'Creating image array')
   vecs = []
   with tqdm(total=len(kwargs['image_paths'])) as progress_bar:
